@@ -1,0 +1,16 @@
+{
+  "name": "مخاطب‌ساز",
+  "short_name": "مخاطب‌ساز",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#050508",
+  "theme_color": "#050508",
+  "description": "اپلیکیشن ساخت مخاطب آفلاین",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
