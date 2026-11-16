@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="manifest" href="manifest.json">
+    <title>مخاطب‌ساز | A$LI</title>
+    <style>
+        /* لود کردن فونت آفلاین */
+        @font-face {
+            font-family: 'Vazirmatn';
+            src: url('fonts/Vazirmatn-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Vazirmatn';
+            src: url('fonts/Vazirmatn-Bold.woff2') format('woff2');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #050508;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at top, #0a1128 0%, #050508 70%);
+            overflow-x: hidden;
+            padding-bottom: 20px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* هدر */
+        .header {
+            text-align: center;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(20, 20, 30, 0.6);
+            border: 1px solid rgba(77, 166, 255, 0.3);
+            box-shadow: 0 0 20px rgba(77, 166, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+        .logo-container svg {
+            width: 40px;
+            height: 40px;
+            fill: #4da6ff;
+            filter: drop-shadow(0 0 10px rgba(77, 166, 255, 0.5));
+        }
+
+        .header h1 {
+            color: #ffd700;
+            font-size: 28px;
+            font-weight: bold;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+        .header p {
+            color: #888;
+            font-size: 13px;
+        }
+
+        /* باکس اصلی (شیشه‌ای) */
+        .glass-panel {
+            background: rgba(20, 20, 30, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-panel label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #ddd;
+            text-align: center;
+        }
+
+        /* انتخاب تعداد */
+        .count-selector {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 5px;
+        }
+        .count-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .count-btn.active {
+            background: rgba(77, 166, 255, 0.2);
+            border-color: #4da6ff;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(77, 166, 255, 0.2);
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 10px 15px;
+            direction: ltr;
+            transition: border 0.3s;
+        }
+        .input-group:focus-within {
+            border-color: #4da6ff;
+            box-shadow: 0 0 10px rgba(77, 166, 255, 0.2);
+        }
+        
+        .input-group span {
+            color: #4da6ff;
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        .input-group input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            width: 100%;
+            outline: none;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+        .input-group input::placeholder {
+            color: #555;
+            font-family: 'Vazirmatn', sans-serif;
+            letter-spacing: 0;
+        }
+
+        button {
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Vazirmatn', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0052cc, #0088ff);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 136, 255, 0.4);
+        }
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+
+        /* افکت Ripple */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: ripple-anim 0.6s linear;
+            pointer-events: none;
+        }
+        @keyframes ripple-anim {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* لودینگ و پیشرفت */
+        #loading-section {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #0088ff;
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #0052cc, #00ccff);
+            border-radius: 10px;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 10px #00ccff;
+        }
+
+        /* موفقیت */
+        #success-section {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .success-icon {
+            font-size: 50px;
+            color: #00ff88;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #00994d, #00cc66);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 204, 102, 0.4);
+            margin-top: 15px;
+        }
+
+        /* تاریخچه */
+        .history-box {
+            display: none;
+            background: rgba(20,20,30,0.4);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 5px;
+            font-size: 12px;
+            color: #aaa;
+        }
+        .history-box h4 {
+            color: #ffd700;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 5px 0;
+        }
+
+        /* فوتر */
+        .footer-info {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .footer-info h3 {
+            color: #ffd700;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .footer-info p {
+            color: #777;
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* FAQ (آکاردئون) */
+        .faq-section {
+            text-align: right;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+        .faq-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .faq-answer {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            font-size: 12px;
+            color: #999;
+            background: rgba(0,0,0,0.2);
+        }
+        .faq-item.active .faq-answer {
+            max-height: 100px;
+            padding: 10px 15px;
+        }
+
+        .telegram-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-tg {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            color: white;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            background: rgba(40, 160, 220, 0.15);
+            border: 1px solid rgba(40, 160, 220, 0.3);
+        }
+        .btn-tg.support {
+            background: rgba(0, 136, 255, 0.15);
+            border-color: rgba(0, 136, 255, 0.3);
+        }
+        .btn-tg svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .error-text {
+            color: #ff4444;
+            font-size: 12px;
+            text-align: center;
+            margin-top: -5px;
+            display: none;
+        }
+
+        /* کانفتی (جشن) */
+        #confetti-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* استایل مودال محدودیت */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-content {
+            background: rgba(20, 20, 30, 0.9);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            max-width: 350px;
+            width: 100%;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-content h3 {
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        .modal-content p {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .modal-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            margin-bottom: 10px;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+        .modal-btn-tg {
+            background: linear-gradient(135deg, #0088cc, #005580);
+            color: white;
+        }
+        .modal-btn-close {
+            background: rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<!-- مودال محدودیت -->
+<div class="modal-overlay" id="limit-modal">
+    <div class="modal-content">
+        <h3>⚠️ محدودیت ساخت</h3>
+        <p>برای ساخت بیش از ۱۰۰ مخاطب (۲۰۰ یا ۵۰۰)، باید وارد ربات تلگرام ما شوید و از طریق ربات اقدام کنید.</p>
+        <a href="https://t.me/Aslimembarbot" class="modal-btn modal-btn-tg">🤖 ورود به ربات تلگرام</a>
+        <button class="modal-btn modal-btn-close" onclick="closeLimitModal()">بستن</button>
+    </div>
+</div>
+
+<div class="app-container">
+    <!-- هدر با لوگو -->
+    <div class="header">
+        <div class="logo-container">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        </div>
+        <h1>مخاطب‌ساز</h1>
+        <p>نسخه وب | کاملاً آفلاین</p>
+    </div>
+
+    <!-- پنل اصلی -->
+    <div class="glass-panel" id="main-panel">
+        <label>تعداد مخاطبین مورد نیاز را انتخاب کنید</label>
+        
+        <!-- انتخاب تعداد -->
+        <div class="count-selector">
+            <button class="count-btn active" onclick="setCount(100, this)">۱۰۰</button>
+            <button class="count-btn" onclick="setCount(200, this)">۲۰۰</button>
+            <button class="count-btn" onclick="setCount(500, this)">۵۰۰</button>
+        </div>
+
+        <label>شماره ایران را وارد کنید (بدون صفر)</label>
+        <div class="input-group">
+            <span>+98</span>
+            <input type="tel" id="phone-input" placeholder="9121234789" maxlength="10" inputmode="numeric">
+        </div>
+        <div class="error-text" id="error-msg">شماره باید ۱۰ رقم و با ۹ شروع شود!</div>
+
+        <button class="btn-primary" id="btn-build" onclick="startProcess(event)">بررسی و ساخت</button>
+    </div>
+
+    <!-- لودینگ -->
+    <div class="glass-panel" id="loading-section">
+        <div class="spinner"></div>
+        <p style="font-weight: bold; color: #4da6ff;">در حال تولید مخاطبین...</p>
+        <p style="font-size: 12px; color: #888; margin-top: 5px;">لطفاً صبر کنید، شماره‌ها در حال پردازش هستند.</p>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <p style="font-size: 12px; color: #fff; margin-top: 5px;" id="progress-text">۰٪</p>
+    </div>
+
+    <!-- موفقیت -->
+    <div class="glass-panel" id="success-section">
+        <div class="success-icon">✔</div>
+        <h3 style="color: #00ff88;">با موفقیت ساخته شد!</h3>
+        <p style="font-size: 13px; color: #aaa; margin-top: 5px;" id="success-msg">مخاطبین آماده شدند.</p>
+        
+        <button class="btn-success" onclick="downloadVCF()">📥 افزودن به مخاطبین (دانلود)</button>
+        <button style="background: rgba(255,255,255,0.05); color: #fff; margin-top: 10px; font-size: 13px;" onclick="shareFile()">🔗 اشتراک‌گذاری فایل</button>
+        <button style="background: transparent; color: #888; margin-top: 10px; font-size: 13px;" onclick="resetApp()">بازگشت به صفحه اصلی</button>
+        
+        <!-- تاریخچه -->
+        <div class="history-box" id="history-box">
+            <h4>تاریخچه اخیر شما:</h4>
+            <div id="history-list"></div>
+        </div>
+    </div>
+
+    <!-- فوتر -->
+    <div class="footer-info">
+        <h3>درباره ما و راهنما</h3>
+        
+        <!-- FAQ -->
+        <div class="faq-section">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">آیا این برنامه به اینترنت نیاز دارد؟ <span>▼</span></div>
+                <div class="faq-answer">خیر، تمام پردازش‌ها آفلاین روی گوشی شما انجام می‌شود.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">چرا شماره من ثبت نمی‌شود؟ <span>▼</span></div>
+                <div class="faq-answer">مطمئن شوید شماره را بدون صفر و با ۱۰ رقم (شروع با ۹) وارد کرده‌اید.</div>
+            </div>
+        </div>
+
+        <p style="margin-top: 15px;">
+            🛡 <b>پشتیبانی:</b> تیم ما ۲۴ ساعته پاسخگوی شماست.<br>
+            🤖 <b>ربات تلگرام:</b> برای امکانات بیشتر به ربات ما بپیوندید.
+        </p>
+        
+        <div class="telegram-buttons">
+            <a href="https://t.me/Aslimembarbot" class="btn-tg">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.11.02-1.93 1.23-5.46 3.62-.51.35-.98.52-1.4.51-.46-.01-1.35-.26-2.01-.48-.81-.27-1.44-.42-1.39-.88.03-.24.35-.49.96-.75 3.75-1.63 6.25-2.71 7.51-3.23 3.57-1.47 4.31-1.72 4.79-1.73.1 0 .34.02.49.13.13.09.17.22.18.32-.01.08.01.25 0 .33z"/></svg>
+                ربات تلگرام
+            </a>
+            <a href="https://t.me/aslimembar" class="btn-tg support">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.11.02-1.93 1.23-5.46 3.62-.51.35-.98.52-1.4.51-.46-.01-1.35-.26-2.01-.48-.81-.27-1.44-.42-1.39-.88.03-.24.35-.49.96-.75 3.75-1.63 6.25-2.71 7.51-3.23 3.57-1.47 4.31-1.72 4.79-1.73.1 0 .34.02.49.13.13.09.17.22.18.32-.01.08.01.25 0 .33z"/></svg>
+                پشتیبانی
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    let generatedContacts = [];
+    let fileName = "";
+    let currentCount = 100;
+
+    // تنظیم تعداد مخاطبین با محدودیت
+    function setCount(num, btn) {
+        if (num > 100) {
+            // نمایش مودال برای 200 و 500
+            document.getElementById('limit-modal').style.display = 'flex';
+            return;
+        }
+        
+        currentCount = num;
+        document.querySelectorAll('.count-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    // بستن مودال
+    function closeLimitModal() {
+        document.getElementById('limit-modal').style.display = 'none';
+        // برگردوندن انتخاب به حالت 100
+        currentCount = 100;
+        document.querySelectorAll('.count-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.count-btn')[0].classList.add('active');
+    }
+
+    // افکت Ripple دکمه‌ها
+    document.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            let ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            this.appendChild(ripple);
+            let x = e.clientX - this.getBoundingClientRect().left;
+            let y = e.clientY - this.getBoundingClientRect().top;
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            setTimeout(() => { ripple.remove(); }, 600);
+        });
+    });
+
+    function startProcess(e) {
+        const input = document.getElementById('phone-input').value.trim();
+        const errorMsg = document.getElementById('error-msg');
+
+        if (input.length !== 10 || !input.startsWith('9')) {
+            errorMsg.style.display = 'block';
+            return;
+        }
+        errorMsg.style.display = 'none';
+
+        document.getElementById('main-panel').style.display = 'none';
+        document.getElementById('loading-section').style.display = 'block';
+
+        // شبیه‌سازی نوار پیشرفت
+        let progress = 0;
+        const bar = document.getElementById('progress-bar');
+        const text = document.getElementById('progress-text');
+        
+        const interval = setInterval(() => {
+            progress += Math.floor(Math.random() * 5) + 2;
+            if (progress > 100) progress = 100;
+            
+            bar.style.width = progress + '%';
+            text.innerText = progress + '٪';
+            
+            if (progress === 100) {
+                clearInterval(interval);
+                setTimeout(() => generateNumbers(input), 500);
+            }
+        }, 30);
+    }
+
+    function generateNumbers(phone) {
+        const base7 = phone.substring(0, 7); 
+        let last3 = parseInt(phone.substring(7, 10), 10); 
+        
+        generatedContacts = [];
+        
+        for (let i = 0; i < currentCount; i++) {
+            let currentNum = last3 + i;
+            let numStr = currentNum.toString().padStart(3, '0');
+            let fullPhone = "+98" + base7 + numStr;
+            let name = "A$LI" + (i + 1);
+            generatedContacts.push({ name: name, phone: fullPhone });
+        }
+
+        let vcfContent = "";
+        generatedContacts.forEach(c => {
+            vcfContent += "BEGIN:VCARD\nVERSION:3.0\nFN:" + c.name + "\nN:" + c.name + ";;;;\nTEL;TYPE=CELL:" + c.phone + "\nEND:VCARD\n";
+        });
+
+        fileName = "contacts_" + phone + ".vcf";
+        window.vcfBlob = new Blob([vcfContent], { type: 'text/vcard' });
+
+        document.getElementById('loading-section').style.display = 'none';
+        document.getElementById('success-section').style.display = 'block';
+        document.getElementById('success-msg').innerText = currentCount + " مخاطب آماده شدند.";
+        
+        // ذخیره تاریخچه
+        saveHistory(currentCount, phone);
+        
+        // افکت کانفتی
+        startConfetti();
+    }
+
+    // تاریخچه (با localStorage)
+    function saveHistory(count, phone) {
+        let history = JSON.parse(localStorage.getItem('vcfHistory') || '[]');
+        let now = new Date();
+        let timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+        
+        history.unshift({ count: count, phone: phone.substring(0,3)+"***", time: timeStr });
+        if (history.length > 3) history.pop(); // فقط 3 مورد آخر
+        
+        localStorage.setItem('vcfHistory', JSON.stringify(history));
+        renderHistory();
+    }
+
+    function renderHistory() {
+        let history = JSON.parse(localStorage.getItem('vcfHistory') || '[]');
+        let box = document.getElementById('history-box');
+        let list = document.getElementById('history-list');
+        
+        if (history.length > 0) {
+            box.style.display = 'block';
+            list.innerHTML = "";
+            history.forEach(h => {
+                list.innerHTML += `<div class="history-item"><span>ساعت ${h.time}</span><span>${h.count} مخاطب</span><span>${h.phone}</span></div>`;
+            });
+        }
+    }
+
+    function downloadVCF() {
+        if (window.vcfBlob) {
+            const url = window.URL.createObjectURL(window.vcfBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+    }
+
+    // اشتراک‌گذاری (فقط در مرورگرهای مدرن)
+    function shareFile() {
+        if (navigator.share && window.vcfBlob) {
+            const file = new File([window.vcfBlob], fileName, { type: 'text/vcard' });
+            navigator.share({
+                title: 'فایل مخاطبین',
+                files: [file]
+            }).catch(err => console.log('Error sharing:', err));
+        } else {
+            alert("مرورگر شما از اشتراک‌گذاری مستقیم پشتیبانی نمی‌کند. از دکمه دانلود استفاده کنید.");
+        }
+    }
+
+    function resetApp() {
+        document.getElementById('phone-input').value = "";
+        document.getElementById('success-section').style.display = 'none';
+        document.getElementById('main-panel').style.display = 'block';
+        window.vcfBlob = null;
+        renderHistory();
+    }
+
+    // آکاردئون FAQ
+    function toggleFaq(el) {
+        let parent = el.parentElement;
+        parent.classList.toggle('active');
+    }
+
+    // افکت کانفتی ساده با Canvas
+    function startConfetti() {
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height,
+                w: Math.random() * 8 + 4,
+                h: Math.random() * 8 + 4,
+                color: ['#ffd700', '#00ccff', '#00ff88'][Math.floor(Math.random()*3)],
+                vy: Math.random() * 3 + 2,
+                vx: Math.random() * 2 - 1,
+                rot: Math.random() * 360,
+                vr: Math.random() * 10 - 5
+            });
+        }
+        
+        let frames = 0;
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.y += p.vy;
+                p.x += p.vx;
+                p.rot += p.vr;
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rot * Math.PI / 180);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+                ctx.restore();
+            });
+            frames++;
+            if (frames < 150) requestAnimationFrame(animate);
+            else ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        animate();
+    }
+
+    // لود اولیه
+    window.onload = renderHistory;
+</script>
+</body>
+</html>
